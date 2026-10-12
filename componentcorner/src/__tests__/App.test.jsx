@@ -66,4 +66,9 @@ describe('App localStorage Integration', () => {
 
     expect(localStorageMock.getItem).toHaveBeenCalledWith('shopping_cart');
   });
+
+  test('Should handle corrupted localStorage data without crashing', () => {
+    localStorageMock.getItem.mockReturnValue('{not valid json');
+    expect(() => render(<App />)).not.toThrow();
+    });
 });

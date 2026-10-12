@@ -48,4 +48,20 @@ describe('ProductCard Component', () => {
         expect(handleAddToCart).toHaveBeenCalledTimes(1);
         expect(handleAddToCart).toHaveBeenCalledWith(mockProduct);
     });
+
+    test('Should call onAddToCart once per click when clicked multiple times', async () => {
+        const handleAddToCart = vi.fn();
+        const user = userEvent.setup();
+
+        render(
+            <BrowserRouter>
+                <ProductCard product={mockProduct} onAddToCart={handleAddToCart} />
+            </BrowserRouter>
+        );
+
+        const button = screen.getByRole('button', { name: /add to cart/i });
+        await user.click(button);
+        await user.click(button);
+        expect(handleAddToCart).toHaveBeenCalledTimes(2);
+        });
 });
